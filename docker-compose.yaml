@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  portalacesso:
+    image: postgres:latest
+    container_name: portalacesso
+    restart: always
+    environment:
+      POSTGRES_USER: portalacessousr
+      POSTGRES_PASSWORD: acesso1025@sistema
+      POSTGRES_DB: portalacessodb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/kafka1/data:/var/lib/kafka/data
+    networks:
+      - broker-sistema
+
+  flyway:
+    image: flyway/flyway:latest
+    container_name: flyway_migrations
+    depends_on:
+      - portalacesso
+    command: -url=jdbc:postgresql://portalacesso:5432/portalacessodb -user=portalacessousr -password=acesso1025@sistema -locations=filesystem:/migrations -baselineOnMigrate=true migrate
+    volumes:
+      - ./migrations:/migrations
+    networks:
+      - broker-sistema
+
+networks:
+  broker-sistema:
+    driver: bridge

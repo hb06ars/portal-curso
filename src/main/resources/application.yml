@@ -1,0 +1,19 @@
+server:
+  port: ${PORT:8080}
+spring:
+  application:
+    name: portal-curso
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/portalacessodb}
+    username: ${POSTGRES_USER:portalacessousr}
+    password: ${POSTGRES_PASS:acesso1025@sistema}
+    driver-class-name: org.postgresql.Driver
+    initialization-mode: always
+  sql:
+    init:
+      mode: always
+
+# chave secreta JWT (em produção use vault/variáveis de ambiente e uma chave maior)
+jwt:
+    secret: replace_this_with_a_long_secret_at_least_32_chars
+    expiration-ms: 3600000 # 1 hora
