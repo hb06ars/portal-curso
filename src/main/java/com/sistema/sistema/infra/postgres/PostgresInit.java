@@ -10,6 +10,10 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Configuration
 @Slf4j
 public class PostgresInit {
@@ -59,7 +63,7 @@ public class PostgresInit {
                     .username(usrDefault)
                     .nome("Fulano")
                     .password(passwordConfig.encoder().encode(passDefault))
-                    .cursoId(cursoService.findAll().getFirst().getId())
+                    .cursos(new HashSet<>(cursoService.findAll()))
                     .role(PerfilEnum.ADMIN.getDescricao())
                     .build());
         } else {

@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AlunoService {
@@ -22,5 +23,9 @@ public class AlunoService {
 
     public AlunoEntity save(AlunoEntity alunoEntity) throws UsernameNotFoundException {
         return repository.save(alunoEntity);
+    }
+
+    public Optional<AlunoEntity> findByUsername(String email) throws UsernameNotFoundException {
+        return repository.findByUsername(email);
     }
 }
