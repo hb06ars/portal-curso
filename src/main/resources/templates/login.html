@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - FullCycle</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #111;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            height: 100vh;
+            justify-content: space-between;
+        }
+
+        .container {
+            padding-left: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 40%;
+        }
+
+        .logo {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .logo span {
+            color: #f1c40f;
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 40px;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 12px;
+            border-radius: 6px;
+            border: none;
+            background: #202020;
+            color: white;
+            font-size: 16px;
+        }
+
+        .forgot {
+            font-size: 14px;
+            margin-bottom: 30px;
+            cursor: pointer;
+            color: #dedede;
+        }
+
+        button {
+            background: #f1c40f;
+            color: black;
+            border: none;
+            padding: 14px;
+            width: 180px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            filter: brightness(1.1);
+        }
+
+        .side-logo {
+            width: 60%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .side-logo svg {
+            width: 60%;
+            opacity: 0.8;
+            stroke: #f1c40f;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 20px;
+            left: 40px;
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        footer span {
+            margin: 0 10px;
+        }
+
+        .error-message {
+            color: #ff5555;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo">Full<span>Cycle</span></div>
+    <h2>Bora evoluir?! :)</h2>
+
+    <!-- Mensagem de erro -->
+    <div th:if="${param.error}" class="error-message">
+        Usuário ou senha inválidos!
+    </div>
+
+    <!-- Formulário de login -->
+    <form th:action="@{/login}" method="post">
+        <div class="input-group">
+            <input type="email" name="username" placeholder="Email" required>
+        </div>
+
+        <div class="input-group">
+            <input type="password" name="password" placeholder="Senha" required>
+        </div>
+
+        <div class="forgot">Esqueci a senha</div>
+
+        <button type="submit">Entrar</button>
+    </form>
+</div>
+
+<div class="side-logo">
+    <!-- Logo circular aproximada -->
+    <svg fill="none" stroke-width="4">
+        <circle cx="200" cy="200" r="150" stroke="#d4aa00"></circle>
+        <path d="M230 70 L300 90 L280 20 Z" stroke="#d4aa00"></path>
+    </svg>
+</div>
+
+<footer>
+    © Full Cycle 2015 – 2025 • Todos os direitos reservados
+</footer>
+
+</body>
+</html>
