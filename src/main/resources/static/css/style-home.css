@@ -1,0 +1,134 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #1c282d;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* HEADER */
+header {
+    background: #0d0d0d;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #222;
+}
+
+.menu-btn {
+    font-size: 32px;
+    cursor: pointer;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #f1c40f;
+}
+
+/* SIDEMENU */
+.sidemenu {
+    position: fixed;
+    left: 0;
+    width: 230px;
+    height: calc(100% - 65px);
+    background: #0f171cf2;
+    border-right: 1px solid #333;
+    padding: 15px;
+    display: none;
+    z-index: 9999;
+    overflow-y: auto;
+}
+
+.sidemenu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    color: #ccc;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+
+.sidemenu a:hover {
+    background: #333;
+    color: #fff;
+}
+
+/* CONTEÚDO */
+.container {
+    padding: 20px;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
+/* GRID */
+.courses {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 1100px) {
+    .courses {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    header {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .courses {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .logo {
+        font-size: 24px;
+    }
+}
+
+/* CARDS */
+.card {
+    cursor: pointer;
+    background: #1b2226;
+    border-radius: 10px;
+    border: 1px solid #333;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+.card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.separator {
+    margin: 40px 0;
+    border-top: 1px solid #222;
+}

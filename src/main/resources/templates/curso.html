@@ -1,263 +1,112 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FullCycle - Áreas de Conhecimento</title>
 
-    <style>
-        body {
-            margin: 0;
-            background: #1c282d;
-            color: #fff;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        /* HEADER */
-        header {
-            background: #0d0d0d;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            border-bottom: 1px solid #222;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .logo span { color: #f1c40f; }
-
-        nav {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            color: #f1c40f;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: bold;
-        }
-
-        .profile {
-            cursor: pointer;
-            background: #1b1b1b;
-            padding: 8px 16px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .profile img {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-        }
-
-        /* CONTEÚDO */
-        .container {
-            padding: 25px;
-        }
-
-        /* Breadcrumb */
-        .breadcrumb {
-            font-size: 14px;
-            color: #ccc;
-            margin-bottom: 15px;
-        }
-
-        .breadcrumb span {
-            color: #f1c40f;
-            font-weight: bold;
-        }
-
-        h1 {
-            margin-top: 5px;
-            font-size: 24px;
-            margin-bottom: 25px;
-        }
-
-        /* GRID DE CARDS */
-        .grid {
-            display: grid;
-            gap: 20px;
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        @media (max-width: 1100px) {
-            .grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 700px) {
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-
-            .grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .card {
-            cursor: pointer;
-            background: #1c1c1c;
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 220px;
-        }
-
-        .card-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
-        }
-
-        .card-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .card-desc {
-            font-size: 14px;
-            color: #bbb;
-            margin-bottom: 20px;
-        }
-
-        .card:hover {
-            transform: scale(1.02);
-        }
-
-        .status {
-            background: #222;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            color: #f1c40f;
-            font-weight: bold;
-            font-size: 14px;
-            border-top: 1px solid #333;
-        }
-
-    </style>
+    <link rel="stylesheet" th:href="@{/css/style-curso.css}">
 </head>
+
 <body>
 
-    <!-- HEADER -->
-    <header>
-        <div class="logo">Full<span>Cycle</span></div>
+<!-- HEADER -->
+<div th:insert="fragments/header :: header"></div>
 
-        <div class="profile" onclick="redirecionar('/logout')" >
-            Sair
-        </div>
-    </header>
+<!-- MENU -->
+<div th:insert="fragments/menu :: menu"></div>
 
-    <!-- CONTEÚDO -->
-    <div class="container">
+<!-- CONTEÚDO -->
+<!-- CONTEÚDO -->
+<div class="container">
 
-        <!-- Breadcrumb -->
-        <div class="breadcrumb">
-            Meus Cursos > <span>Full Cycle 4.0</span>
-        </div>
-
-        <h1>Áreas de conhecimento</h1>
-
-        <div class="grid">
-
-            <!-- CARD 1 -->
-            <div class="card">
-                <div>
-                    <div class="card-icon">🏁</div>
-                    <div class="card-title">Boas vindas</div>
-                    <div class="card-desc">
-                        O primeiro passo e informações para você começar a sua jornada de aprendizado transformadora.
-                    </div>
-                </div>
-                <div class="status">Trilha Finalizada ✓</div>
-            </div>
-
-            <!-- CARD 2 -->
-            <div class="card">
-                <div>
-                    <div class="card-icon">🐳</div>
-                    <div class="card-title">Docker e Containers</div>
-                    <div class="card-desc">
-                        Explore as funcionalidades do Docker, na prática, desde o desenvolvimento até a produção.
-                    </div>
-                </div>
-                <div class="status">Trilha Finalizada ✓</div>
-            </div>
-
-            <!-- CARD 3 -->
-            <div class="card">
-                <div>
-                    <div class="card-icon">📟</div>
-                    <div class="card-title">APIs: Design, REST, gRPC e API Gateway</div>
-                    <div class="card-desc">
-                        Aprenda a projetar e implementar APIs escaláveis e seguras com REST, gRPC e API Gateway.
-                    </div>
-                </div>
-                <div class="status">Trilha em Construção 🛠</div>
-            </div>
-
-            <!-- CARD 4 -->
-            <div class="card">
-                <div>
-                    <div class="card-icon">🤖</div>
-                    <div class="card-title">Testes Automatizados</div>
-                    <div class="card-desc">
-                        Trabalhe com TDD, padrões avançados e testcontainers.
-                    </div>
-                </div>
-                <div class="status">Trilha em Construção 🛠</div>
-            </div>
-
-            <!-- CARD 5 -->
-            <div class="card">
-                <div>
-                    <div class="card-icon">📐</div>
-                    <div class="card-title">SOLID e Design Patterns</div>
-                    <div class="card-desc">
-                        Domine SOLID e padrões GoF para criar arquiteturas flexíveis e resolver problemas reais.
-                    </div>
-                </div>
-                <div class="status">Trilha em Construção 🛠</div>
-            </div>
-
-            <!-- CARD 6 -->
-            <div class="card">
-                <div>
-                    <div class="card-icon">🏛</div>
-                    <div class="card-title">Arquitetura: MVC, Hexagonal, Clean e Multi Tenant</div>
-                    <div class="card-desc">
-                        Explore arquiteturas modernas para criar sistemas escaláveis e seguros.
-                    </div>
-                </div>
-                <div class="status">Trilha em Construção 🛠</div>
-            </div>
-
-        </div>
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        Meus Cursos > <span>Full Cycle 4.0</span>
     </div>
 
+    <h1>Áreas de conhecimento</h1>
+
+    <div class="grid">
+
+        <!-- CARD 1 -->
+        <div class="card">
+            <div>
+                <div class="card-icon">🏁</div>
+                <div class="card-title">Boas vindas</div>
+                <div class="card-desc">
+                    O primeiro passo e informações para você começar a sua jornada de aprendizado transformadora.
+                </div>
+            </div>
+            <div class="status">Trilha Finalizada ✓</div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="card">
+            <div>
+                <div class="card-icon">🐳</div>
+                <div class="card-title">Docker e Containers</div>
+                <div class="card-desc">
+                    Explore as funcionalidades do Docker, na prática, desde o desenvolvimento até a produção.
+                </div>
+            </div>
+            <div class="status">Trilha Finalizada ✓</div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="card">
+            <div>
+                <div class="card-icon">📟</div>
+                <div class="card-title">APIs: Design, REST, gRPC e API Gateway</div>
+                <div class="card-desc">
+                    Aprenda a projetar e implementar APIs escaláveis e seguras com REST, gRPC e API Gateway.
+                </div>
+            </div>
+            <div class="status">Trilha em Construção 🛠</div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="card">
+            <div>
+                <div class="card-icon">🤖</div>
+                <div class="card-title">Testes Automatizados</div>
+                <div class="card-desc">
+                    Trabalhe com TDD, padrões avançados e testcontainers.
+                </div>
+            </div>
+            <div class="status">Trilha em Construção 🛠</div>
+        </div>
+
+        <!-- CARD 5 -->
+        <div class="card">
+            <div>
+                <div class="card-icon">📐</div>
+                <div class="card-title">SOLID e Design Patterns</div>
+                <div class="card-desc">
+                    Domine SOLID e padrões GoF para criar arquiteturas flexíveis e resolver problemas reais.
+                </div>
+            </div>
+            <div class="status">Trilha em Construção 🛠</div>
+        </div>
+
+        <!-- CARD 6 -->
+        <div class="card">
+            <div>
+                <div class="card-icon">🏛</div>
+                <div class="card-title">Arquitetura: MVC, Hexagonal, Clean e Multi Tenant</div>
+                <div class="card-desc">
+                    Explore arquiteturas modernas para criar sistemas escaláveis e seguros.
+                </div>
+            </div>
+            <div class="status">Trilha em Construção 🛠</div>
+        </div>
+
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<div th:replace="fragments/scripts :: scripts"></div>
+
 </body>
-
-<script>
-    function redirecionar(url) {
-        window.location.href = url;
-    }
-</script>
-
 </html>

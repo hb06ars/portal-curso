@@ -1,0 +1,18 @@
+<script th:fragment="scripts">
+    function redirecionar(url) {
+        window.location.href = url;
+    }
+
+    function toggleMenu() {
+        const menu = document.getElementById("sidemenu");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    document.addEventListener("click", function(event) {
+        const menu = document.getElementById("sidemenu");
+        const btn = document.querySelector(".menu-btn");
+        if (!menu.contains(event.target) && !btn.contains(event.target)) {
+            menu.style.display = "none";
+        }
+    });
+</script>

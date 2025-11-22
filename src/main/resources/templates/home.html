@@ -1,311 +1,59 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meus Cursos - FullCycle</title>
 
-    <style>
-
-        body {
-            margin: 0;
-            padding: 0;
-            background: #1c282d;
-            color: #fff;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        /* ---------------- HEADER ---------------- */
-        header {
-            background: #1b2226;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #222;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .logo span {
-            color: #f1c40f;
-        }
-
-        nav {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            color: #f1c40f;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: bold;
-        }
-
-        nav a:hover {
-            text-decoration: underline;
-        }
-
-        /* Perfil */
-        .profile {
-            cursor: pointer;
-            background: #1b1b1b;
-            padding: 8px 16px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            margin-top: 10px;
-        }
-
-        .profile img {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-        }
-
-        /* ---------------- CONTEÚDO ---------------- */
-        .container {
-            padding: 20px;
-        }
-
-        h1 {
-            font-size: 24px;
-            margin-bottom: 25px;
-        }
-
-        /* GRID RESPONSIVO */
-        .courses {
-            display: grid;
-            gap: 20px;
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        @media (max-width: 1100px) {
-            .courses {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 700px) {
-            header {
-                flex-wrap: wrap;
-                gap: 10px;
-            }
-
-            nav {
-                gap: 10px;
-            }
-
-            .profile {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .courses {
-                grid-template-columns: repeat(1, 1fr);
-            }
-
-            .logo {
-                font-size: 24px;
-            }
-        }
-
-        .card {
-            cursor: pointer;
-            background: #1b2226;
-            border-radius: 10px;
-            border: 1px solid #333;
-            overflow: hidden;
-            transition: transform 0.2s;
-        }
-
-        .card:hover {
-            transform: scale(1.02);
-        }
-
-        .card img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-        }
-
-        .card-content {
-            padding: 15px;
-        }
-
-        .card-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .separator {
-            margin: 40px 0;
-            border-top: 1px solid #222;
-        }
-
-        /* ---------------- FOOTER ---------------- */
-        footer {
-            padding: 25px 20px;
-            font-size: 14px;
-            color: #bbb;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            border-top: 1px solid #222;
-        }
-
-        footer a {
-            color: #ccc;
-            text-decoration: none;
-            margin-left: 10px;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 600px) {
-            footer {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
-        }
-
-        .menu-btn {
-            font-size: 32px;
-            cursor: pointer;
-        }
-
-        /* SIDEMENU */
-        .sidemenu {
-            position: fixed;
-            left: 0;
-            width: 230px;
-            height: calc(100% - 65px);
-            background: #0f171cf2;
-            border-right: 1px solid #333;
-            padding: 15px;
-            display: none;
-            z-index: 9999; /* fica SEMPRE na frente */
-            overflow-y: auto;
-        }
-
-
-        .sidemenu a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            color: #ccc;
-            text-decoration: none;
-            border-radius: 8px;
-            margin-bottom: 5px;
-        }
-
-        .sidemenu a:hover {
-            background: #333;
-            color: #fff;
-        }
-
-    </style>
+    <link rel="stylesheet" th:href="@{/css/style-home.css}">
 </head>
+
 <body>
-    <!-- HEADER -->
-    <header>
-        <div class="menu-btn" onclick="toggleMenu()">☰</div>
 
-        <div class="logo">Full<span>Cycle</span></div>
+<!-- HEADER -->
+<div th:insert="fragments/header :: header"></div>
 
-    </header>
+<!-- MENU -->
+<div th:insert="fragments/menu :: menu"></div>
 
-    <!-- MENU LATERAL -->
-    <div id="sidemenu" class="sidemenu">
-        <a href="#">🎓 Meus cursos</a>
-        <a href="#">💬 Forum</a>
-        <a style="cursor:pointer" onclick="redirecionar('/logout')">💬 Sair</a>
-    </div>
+<!-- CONTEÚDO -->
+<div class="container">
+    <h1>Meus Cursos</h1>
 
-    <!-- CONTEÚDO -->
-    <div class="container">
-        <h1>Meus Cursos</h1>
+    <div class="courses">
 
-        <div class="courses">
-            <!-- CARD 1 -->
-            <div class="card">
-                <img
-                    src="https://via.placeholder.com/400x200/000000/ffffff?text=Full+Cycle+4.0"
-                    alt=""
-                />
-                <div class="card-content">
-                    <div class="card-title">Full Cycle 4.0</div>
-                    <p>
-                        Domine habilidades essenciais para aplicações de grande
-                        porte.
-                    </p>
-                </div>
-            </div>
-
-            <!-- CARD 2 -->
-            <div class="card" onclick="redirecionar('/curso')">
-                <img
-                    src="https://via.placeholder.com/400x200/000000/ffffff?text=Full+Cycle+3.0"
-                    alt=""
-                />
-                <div class="card-content">
-                    <div class="card-title">Full Cycle 3.0</div>
-                    <p>
-                        Aprenda a desenvolver aplicações modernas e escaláveis.
-                    </p>
-                </div>
-            </div>
-
-            <!-- CARD 3 -->
-            <div class="card">
-                <img
-                    src="https://via.placeholder.com/400x200/000000/ffffff?text=Bônus+FullCycle"
-                    alt=""
-                />
-                <div class="card-content">
-                    <div class="card-title">Bônus Full Cycle</div>
-                    <p>
-                        Conteúdos extras exclusivos para alunos Full Cycle.
-                    </p>
-                </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/400x200/000000/ffffff?text=Full+Cycle+4.0">
+            <div class="card-content">
+                <div class="card-title">Full Cycle 4.0</div>
+                <p>Domine habilidades essenciais para aplicações de grande porte.</p>
             </div>
         </div>
 
-        <div class="separator"></div>
+        <div class="card" onclick="redirecionar('/curso')">
+            <img src="https://via.placeholder.com/400x200/000000/ffffff?text=Full+Cycle+3.0">
+            <div class="card-content">
+                <div class="card-title">Full Cycle 3.0</div>
+                <p>Aprenda a desenvolver aplicações modernas e escaláveis.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://via.placeholder.com/400x200/000000/ffffff?text=Bônus+FullCycle">
+            <div class="card-content">
+                <div class="card-title">Bônus Full Cycle</div>
+                <p>Conteúdos extras exclusivos para alunos Full Cycle.</p>
+            </div>
+        </div>
+
     </div>
 
+    <div class="separator"></div>
+</div>
+
+<!-- SCRIPTS -->
+<div th:replace="fragments/scripts :: scripts"></div>
+
 </body>
-
-<script>
-    function redirecionar(url) {
-        window.location.href = url;
-    }
-
-    function toggleMenu() {
-        const menu = document.getElementById("sidemenu");
-        menu.style.display = menu.style.display === "block" ? "none" : "block";
-    }
-
-    document.addEventListener("click", function(event) {
-        const menu = document.getElementById("sidemenu");
-        const btn = document.querySelector(".menu-btn");
-        if (!menu.contains(event.target) && !btn.contains(event.target)) {
-            menu.style.display = "none";
-        }
-    });
-
-</script>
-
 </html>

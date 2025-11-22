@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FullCycle - Dados</title>
+
+    <link rel="stylesheet" th:href="@{/css/style-dados.css}">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div th:insert="fragments/header :: header"></div>
+
+<!-- MENU -->
+<div th:insert="fragments/menu :: menu"></div>
+
+<!-- CONTEÚDO -->
+<!-- CONTEÚDO -->
+<div class="container">
+    <h1>Meus dados</h1>
+
+    <div class="card">
+
+        <h2>Dados pessoais</h2>
+        <div class="form-grid">
+            <input type="text" placeholder="Nome" value="José Henrique">
+            <input type="text" placeholder="Sobrenome" value="Brandão">
+            <input type="date" value="1988-05-02">
+
+            <input type="password" placeholder="Senha">
+            <input type="password" placeholder="Confirmar senha">
+            <div></div>
+        </div>
+
+        <h2>Endereço</h2>
+        <div class="form-grid">
+            <input type="text" placeholder="CEP" value="05108-160">
+            <input type="text" placeholder="Rua" value="Rua José de Souza Ferreira">
+            <input type="text" placeholder="Número" value="33">
+
+            <input type="text" placeholder="Complemento" value="Casa 1">
+            <input type="text" placeholder="Bairro" value="Jardim Marisa">
+            <select>
+                <option selected>SP</option>
+                <option>RJ</option>
+                <option>MG</option>
+            </select>
+
+            <input type="text" placeholder="Cidade" value="São Paulo">
+            <input type="text" placeholder="DDD" value="11">
+            <input type="text" placeholder="Telefone" value="9893-76271">
+        </div>
+
+        <button class="btn">Salvar dados</button>
+
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<div th:replace="fragments/scripts :: scripts"></div>
+
+</body>
+</html>
