@@ -3,6 +3,7 @@ package com.sistema.sistema.app.controller;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.Date;
 
@@ -52,9 +55,11 @@ public class AulaController {
     public void streamVideo(
             @PathVariable String id,
             @RequestParam String token,
+            HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         try {
+            // valida token
             DecodedJWT jwt = JWT.require(Algorithm.HMAC256("segredo123"))
                     .build()
                     .verify(token);
@@ -64,20 +69,63 @@ public class AulaController {
                 return;
             }
 
-            ClassPathResource resource =
-                    new ClassPathResource("videos/aula_" + id + ".mp4");
+            File videoFile = new ClassPathResource("/videos/aula_" + id + ".mp4").getFile();
+            long fileLength = videoFile.length();
 
-            response.setContentType("video/mp4");
+            String range = request.getHeader("Range");
 
-            try (var in = resource.getInputStream()) {
-                in.transferTo(response.getOutputStream());
+            if (range == null) {
+                // Sem Range → manda tudo (pouco comum)
+                response.setContentType("video/mp4");
+                response.setHeader("Content-Length", String.valueOf(fileLength));
+                Files.copy(videoFile.toPath(), response.getOutputStream());
+                return;
             }
 
-            response.flushBuffer();
+            // --- Suporte a RANGE ---
+            long start = 0;
+            long end = fileLength - 1;
+
+            String[] ranges = range.replace("bytes=", "").split("-");
+            start = Long.parseLong(ranges[0]);
+
+            if (ranges.length > 1 && !ranges[1].isEmpty()) {
+                end = Long.parseLong(ranges[1]);
+            }
+
+            long chunkSize = end - start + 1;
+
+            response.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT);
+            response.setContentType("video/mp4");
+            response.setHeader("Accept-Ranges", "bytes");
+            response.setHeader("Content-Range", "bytes " + start + "-" + end + "/" + fileLength);
+            response.setHeader("Content-Length", String.valueOf(chunkSize));
+
+            FileInputStream inputStream = new FileInputStream(videoFile);
+            inputStream.skip(start);
+
+            byte[] buffer = new byte[8192];
+            long bytesRemaining = chunkSize;
+
+            OutputStream output = response.getOutputStream();
+
+            while (bytesRemaining > 0) {
+                int bytesToRead = (int) Math.min(buffer.length, bytesRemaining);
+                int bytesRead = inputStream.read(buffer, 0, bytesToRead);
+
+                if (bytesRead == -1) break;
+
+                output.write(buffer, 0, bytesRead);
+                bytesRemaining -= bytesRead;
+            }
+
+            output.flush();
+            inputStream.close();
 
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
     }
+
 
 }
