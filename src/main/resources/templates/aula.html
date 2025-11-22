@@ -40,7 +40,7 @@
         <h3 class="course-title">Curso: Desenvolvimento</h3>
 
         <div id="lessons">
-            <div class="lesson" data-src="@{/secure/video/1}" data-title="Aula 1 - Introdução" data-desc="Descreva aqui a apresentação do curso.">
+            <div class="lesson" data-src="@{/aula/1}">
                 <div class="meta">
                     <strong>Aula 1 - Introdução</strong>
                     <small>7:07</small>
@@ -107,131 +107,134 @@
 fetch("/aula/1")
   .then(r => r.text())
   .then(url => {
-     document.getElementById("videoSource").src = url;
+     const source = document.getElementById("videoSource");
+     source.src = url;
+     document.getElementById("player").load();
   });
 
 
 
-const lessonsEl = document.getElementById('lessons')
-const player = document.getElementById('player')
-const progressBar = document.getElementById('progress-bar')
-const btnPlay = document.getElementById('btn-play')
-const btnNext = document.getElementById('btn-next')
-const btnPrev = document.getElementById('btn-prev')
-const speed = document.getElementById('speed')
-const titleEl = document.getElementById('title')
-const descEl = document.getElementById('desc')
-const btnFull = document.getElementById('btn-full')
 
-let lessons = Array.from(document.querySelectorAll('.lesson'))
-let currentIndex = 0
+    const lessonsEl = document.getElementById('lessons')
+    const player = document.getElementById('player')
+    const progressBar = document.getElementById('progress-bar')
+    const btnPlay = document.getElementById('btn-play')
+    const btnNext = document.getElementById('btn-next')
+    const btnPrev = document.getElementById('btn-prev')
+    const speed = document.getElementById('speed')
+    const titleEl = document.getElementById('title')
+    const descEl = document.getElementById('desc')
+    const btnFull = document.getElementById('btn-full')
 
-const saved = JSON.parse(localStorage.getItem('udemyLiteState') || 'null')
-if (saved && typeof saved.index === 'number') currentIndex = saved.index
+    let lessons = Array.from(document.querySelectorAll('.lesson'))
+    let currentIndex = 0
 
-function setActiveLesson(idx){
-  lessons.forEach(l => l.classList.remove('active'))
-  const sel = lessons[idx]
-  if(!sel) return
-  sel.classList.add('active')
-  const src = sel.getAttribute('data-src')
-  const t = sel.getAttribute('data-title')
-  const d = sel.getAttribute('data-desc')
-  if(player.querySelector('source')){
-    player.querySelector('source').src = src
-    player.load()
-  } else player.src = src
+    const saved = JSON.parse(localStorage.getItem('udemyLiteState') || 'null')
+    if (saved && typeof saved.index === 'number') currentIndex = saved.index
 
-  titleEl.textContent = t
-  descEl.textContent = d
-  currentIndex = idx
-  saveState()
-}
+    function setActiveLesson(idx){
+      lessons.forEach(l => l.classList.remove('active'))
+      const sel = lessons[idx]
+      if(!sel) return
+      sel.classList.add('active')
+      const src = sel.getAttribute('data-src')
+      const t = sel.getAttribute('data-title')
+      const d = sel.getAttribute('data-desc')
+      if(player.querySelector('source')){
+        player.querySelector('source').src = src
+        player.load()
+      } else player.src = src
 
-lessons.forEach((l, i) => {
-  l.addEventListener('click', () => setActiveLesson(i))
-})
+      titleEl.textContent = t
+      descEl.textContent = d
+      currentIndex = idx
+      saveState()
+    }
 
-function restorePosition(){
-  const st = JSON.parse(localStorage.getItem('udemyLiteState') || 'null')
-  if(!st) return
-  if(st.index !== undefined) setActiveLesson(st.index)
-  if(st.time) {
-    player.addEventListener('loadedmetadata', () => {
-      if(player.duration > st.time) player.currentTime = st.time
-    }, {once:true})
-  }
-}
+    lessons.forEach((l, i) => {
+      l.addEventListener('click', () => setActiveLesson(i))
+    })
 
-btnPlay.addEventListener('click', () => {
-  if(player.paused) player.play()
-  else player.pause()
-  updatePlayButton()
-})
+    function restorePosition(){
+      const st = JSON.parse(localStorage.getItem('udemyLiteState') || 'null')
+      if(!st) return
+      if(st.index !== undefined) setActiveLesson(st.index)
+      if(st.time) {
+        player.addEventListener('loadedmetadata', () => {
+          if(player.duration > st.time) player.currentTime = st.time
+        }, {once:true})
+      }
+    }
 
-function updatePlayButton(){
-  btnPlay.textContent = player.paused ? '▶' : '❚❚'
-}
+    btnPlay.addEventListener('click', () => {
+      if(player.paused) player.play()
+      else player.pause()
+      updatePlayButton()
+    })
 
-player.addEventListener('play', updatePlayButton)
-player.addEventListener('pause', updatePlayButton)
+    function updatePlayButton(){
+      btnPlay.textContent = player.paused ? '▶' : '❚❚'
+    }
 
-btnNext.addEventListener('click', () => {
-  if(currentIndex < lessons.length -1) setActiveLesson(currentIndex+1)
-})
-btnPrev.addEventListener('click', () => {
-  if(currentIndex > 0) setActiveLesson(currentIndex-1)
-})
+    player.addEventListener('play', updatePlayButton)
+    player.addEventListener('pause', updatePlayButton)
 
-player.addEventListener('timeupdate', () => {
-  if(player.duration) {
-    const pct = (player.currentTime / player.duration) * 100
-    progressBar.style.width = pct + '%'
-    saveState()
-  }
-})
+    btnNext.addEventListener('click', () => {
+      if(currentIndex < lessons.length -1) setActiveLesson(currentIndex+1)
+    })
+    btnPrev.addEventListener('click', () => {
+      if(currentIndex > 0) setActiveLesson(currentIndex-1)
+    })
 
-document.getElementById('progress').addEventListener('click', (e) => {
-  const rect = e.currentTarget.getBoundingClientRect()
-  const x = e.clientX - rect.left
-  const pct = x / rect.width
-  if(player.duration) player.currentTime = pct * player.duration
-})
+    player.addEventListener('timeupdate', () => {
+      if(player.duration) {
+        const pct = (player.currentTime / player.duration) * 100
+        progressBar.style.width = pct + '%'
+        saveState()
+      }
+    })
 
-speed.addEventListener('change', () => {
-  player.playbackRate = parseFloat(speed.value)
-})
+    document.getElementById('progress').addEventListener('click', (e) => {
+      const rect = e.currentTarget.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const pct = x / rect.width
+      if(player.duration) player.currentTime = pct * player.duration
+    })
 
-function saveState(){
-  const st = { index: currentIndex, time: Math.floor(player.currentTime || 0) }
-  localStorage.setItem('udemyLiteState', JSON.stringify(st))
-}
+    speed.addEventListener('change', () => {
+      player.playbackRate = parseFloat(speed.value)
+    })
 
-player.addEventListener('ended', () => {
-  if(currentIndex < lessons.length -1) setActiveLesson(currentIndex+1)
-})
+    function saveState(){
+      const st = { index: currentIndex, time: Math.floor(player.currentTime || 0) }
+      localStorage.setItem('udemyLiteState', JSON.stringify(st))
+    }
 
-document.addEventListener('keydown', (e) => {
-  if(e.code === 'Space') { e.preventDefault(); if(player.paused) player.play(); else player.pause(); }
-  if(e.code === 'ArrowRight') player.currentTime = Math.min(player.duration || 0, player.currentTime + 10)
-  if(e.code === 'ArrowLeft') player.currentTime = Math.max(0, player.currentTime - 10)
-})
+    player.addEventListener('ended', () => {
+      if(currentIndex < lessons.length -1) setActiveLesson(currentIndex+1)
+    })
 
-btnFull.addEventListener('click', () => {
-  const el = document.documentElement
-  if(!document.fullscreenElement) {
-    el.requestFullscreen?.()
-  } else document.exitFullscreen?.()
-})
+    document.addEventListener('keydown', (e) => {
+      if(e.code === 'Space') { e.preventDefault(); if(player.paused) player.play(); else player.pause(); }
+      if(e.code === 'ArrowRight') player.currentTime = Math.min(player.duration || 0, player.currentTime + 10)
+      if(e.code === 'ArrowLeft') player.currentTime = Math.max(0, player.currentTime - 10)
+    })
 
-player.playbackRate = parseFloat(speed.value)
-setTimeout(restorePosition, 50)
+    btnFull.addEventListener('click', () => {
+      const el = document.documentElement
+      if(!document.fullscreenElement) {
+        el.requestFullscreen?.()
+      } else document.exitFullscreen?.()
+    })
 
-if(!JSON.parse(localStorage.getItem('udemyLiteState') || 'null')) setActiveLesson(currentIndex)
+    player.playbackRate = parseFloat(speed.value)
+    setTimeout(restorePosition, 50)
 
-player.addEventListener('error', (ev) => {
-  console.error('Erro ao reproduzir vídeo', ev)
-})
+    if(!JSON.parse(localStorage.getItem('udemyLiteState') || 'null')) setActiveLesson(currentIndex)
+
+    player.addEventListener('error', (ev) => {
+      console.error('Erro ao reproduzir vídeo', ev)
+    })
 </script>
 
 </body>

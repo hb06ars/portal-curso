@@ -48,7 +48,6 @@ public class AulaController {
         return ResponseEntity.ok(urlTemporaria);
     }
 
-    // Faz o streaming do vídeo
     @GetMapping("/stream/{id}")
     public void streamVideo(
             @PathVariable String id,
@@ -56,28 +55,29 @@ public class AulaController {
             HttpServletResponse response) throws Exception {
 
         try {
-            // valida token
             DecodedJWT jwt = JWT.require(Algorithm.HMAC256("segredo123"))
                     .build()
                     .verify(token);
 
-            // confirma que o token corresponde ao vídeo
             if (!jwt.getClaim("videoId").asString().equals(id)) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 return;
             }
 
-            ClassPathResource resource = new ClassPathResource("/videos/aula_" + id + ".mp4");
-            File arquivo = resource.getFile();
+            ClassPathResource resource =
+                    new ClassPathResource("videos/aula_" + id + ".mp4");
 
             response.setContentType("video/mp4");
-            response.setHeader("Content-Length", String.valueOf(arquivo.length()));
 
-            Files.copy(arquivo.toPath(), response.getOutputStream());
+            try (var in = resource.getInputStream()) {
+                in.transferTo(response.getOutputStream());
+            }
+
             response.flushBuffer();
 
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
     }
+
 }
