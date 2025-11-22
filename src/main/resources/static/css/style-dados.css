@@ -6,14 +6,18 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.container {
+    padding: 25px;
+}
+
 /* HEADER */
 header {
-    height: 65px;
-    background: #1a1a1a;
+    background: #0d0d0d;
+    padding: 15px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 25px;
+    border-bottom: 1px solid #222;
 }
 
 .menu-btn {
@@ -30,31 +34,18 @@ header {
     color: #f1c40f;
 }
 
-.profile {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #2a2a2a;
-    padding: 10px 16px;
-    border-radius: 25px;
-}
-
-.profile img {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-}
-
 /* SIDEMENU */
 .sidemenu {
-    position: absolute;
-    top: 65px;
+    position: fixed;
     left: 0;
     width: 230px;
-    background: #222;
+    height: calc(100% - 65px);
+    background: #0f171cf2;
     border-right: 1px solid #333;
     padding: 15px;
     display: none;
+    z-index: 9999;
+    overflow-y: auto;
 }
 
 .sidemenu a {
@@ -73,37 +64,19 @@ header {
     color: #fff;
 }
 
-/* MAIN CONTENT */
-.container {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 20px;
-}
-
-h1 {
-    font-size: 28px;
-    margin-bottom: 20px;
-}
-
-h2 {
-    margin-top: 20px;
-    margin-bottom: 15px;
-    font-size: 20px;
-    color: #f1c40f;
-}
-
-.card {
-    background: #2b2b2b;
-    padding: 30px;
-    border-radius: 12px;
-}
-
-/* GRID */
+/* GRID DE CARDS */
 .form-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
     margin: auto;
+    padding: 10px;
+}
+
+.card {
+    background: #1a1a1a;
+    padding: 30px;
+    border-radius: 12px;
 }
 
 @media (max-width: 900px) {
@@ -125,7 +98,7 @@ input, select {
 /* BUTTON */
 .btn {
     margin-top: 25px;
-    background: #f1c40f;
+    background: #37687c;
     padding: 12px 22px;
     border: none;
     border-radius: 8px;
@@ -135,5 +108,5 @@ input, select {
 }
 
 .btn:hover {
-    background: #ffdb4d;
+    background: white;
 }
