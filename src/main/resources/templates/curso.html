@@ -18,7 +18,6 @@
 <div th:insert="fragments/menu :: menu"></div>
 
 <!-- CONTEÚDO -->
-<!-- CONTEÚDO -->
 <div class="container">
 
     <!-- Breadcrumb -->
@@ -31,7 +30,7 @@
     <div class="grid">
 
         <!-- CARD 1 -->
-        <div class="card">
+        <div class="card" onclick="redirecionar('/aula')">
             <div>
                 <div class="card-icon">🏁</div>
                 <div class="card-title">Boas vindas</div>
@@ -104,6 +103,7 @@
 
     </div>
 </div>
+<!-- CONTEÚDO -->
 
 <!-- SCRIPTS -->
 <div th:replace="fragments/scripts :: scripts"></div>
