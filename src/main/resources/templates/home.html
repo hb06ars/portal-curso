@@ -6,6 +6,7 @@
     <title>Meus Cursos - FullCycle</title>
 
     <style>
+
         body {
             margin: 0;
             padding: 0;
@@ -21,7 +22,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            flex-wrap: wrap;
             border-bottom: 1px solid #222;
         }
 
@@ -53,6 +53,7 @@
 
         /* Perfil */
         .profile {
+            cursor: pointer;
             background: #1b1b1b;
             padding: 8px 16px;
             border-radius: 30px;
@@ -94,8 +95,7 @@
 
         @media (max-width: 700px) {
             header {
-                flex-direction: column;
-                align-items: flex-start;
+                flex-wrap: wrap;
                 gap: 10px;
             }
 
@@ -118,6 +118,7 @@
         }
 
         .card {
+            cursor: pointer;
             background: #1b2226;
             border-radius: 10px;
             border: 1px solid #333;
@@ -178,17 +179,60 @@
                 text-align: center;
             }
         }
+
+        .menu-btn {
+            font-size: 32px;
+            cursor: pointer;
+        }
+
+        /* SIDEMENU */
+        .sidemenu {
+            position: fixed;
+            left: 0;
+            width: 230px;
+            height: calc(100% - 65px);
+            background: #0f171cf2;
+            border-right: 1px solid #333;
+            padding: 15px;
+            display: none;
+            z-index: 9999; /* fica SEMPRE na frente */
+            overflow-y: auto;
+        }
+
+
+        .sidemenu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            color: #ccc;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 5px;
+        }
+
+        .sidemenu a:hover {
+            background: #333;
+            color: #fff;
+        }
+
     </style>
 </head>
 <body>
     <!-- HEADER -->
     <header>
+        <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
         <div class="logo">Full<span>Cycle</span></div>
 
-        <div class="profile" onclick="redirecionar('/logout')" >
-            Sair
-        </div>
     </header>
+
+    <!-- MENU LATERAL -->
+    <div id="sidemenu" class="sidemenu">
+        <a href="#">🎓 Meus cursos</a>
+        <a href="#">💬 Forum</a>
+        <a style="cursor:pointer" onclick="redirecionar('/logout')">💬 Sair</a>
+    </div>
 
     <!-- CONTEÚDO -->
     <div class="container">
@@ -242,21 +286,26 @@
         <div class="separator"></div>
     </div>
 
-    <!-- FOOTER -->
-    <footer>
-        <div>© Full Cycle 2015 – 2025 • Todos os direitos reservados</div>
-        <div>
-            <a href="#">Validar Certificado</a> •
-            <a href="#">Política de Privacidade</a> •
-            <a href="#">Termos de Uso</a>
-        </div>
-    </footer>
 </body>
 
 <script>
     function redirecionar(url) {
         window.location.href = url;
     }
+
+    function toggleMenu() {
+        const menu = document.getElementById("sidemenu");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    document.addEventListener("click", function(event) {
+        const menu = document.getElementById("sidemenu");
+        const btn = document.querySelector(".menu-btn");
+        if (!menu.contains(event.target) && !btn.contains(event.target)) {
+            menu.style.display = "none";
+        }
+    });
+
 </script>
 
 </html>
