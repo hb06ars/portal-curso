@@ -1,5 +1,26 @@
 <div th:fragment="menu" id="sidemenu" class="sidemenu">
-    <a href="/home">🎓 Cursos</a>
-    <a href="/dados">🎓 Dados Pessoais</a>
-    <a style="cursor:pointer" onclick="redirecionar('/logout')">💬 Sair</a>
+
+    <a href="/home" style="display:flex; align-items:center; text-decoration:none; color:inherit;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="margin-right:4px;">
+            <path d="M8 0L0 4l8 4 8-4-8-4zm0 5.5L1.143 1.857v7.286L8 12l6.857-2.857V1.857L8 5.5z"/>
+            <path d="M8 13a1 1 0 0 1-.707-.293L2 8.414V15h12V8.414l-5.293 4.293A1 1 0 0 1 8 13z"/>
+        </svg>
+        Cursos
+    </a>
+
+    <a href="/dados">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+        </svg>
+        Dados Pessoais
+    </a>
+
+    <a style="cursor:pointer; display:flex; align-items:center;" onclick="redirecionar('/logout')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="margin-right:4px;">
+            <path d="M6 2a1 1 0 0 0-1 1v3h1V3h7v10H6v-3H5v3a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H6z"/>
+            <path d="M.146 8.354a.5.5 0 0 1 0-.708L3.5 4.293a.5.5 0 1 1 .707.707L1.707 8l2.5 2.5a.5.5 0 0 1-.707.707l-3.354-3.353z"/>
+        </svg>
+        Sair
+    </a>
+
 </div>
