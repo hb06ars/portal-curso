@@ -17,15 +17,15 @@ public class AlunoService {
         this.repository = repository;
     }
 
-    public List<AlunoEntity> findAll() throws UsernameNotFoundException {
+    public List<AlunoEntity> buscarTodos() throws UsernameNotFoundException {
         return repository.findAll();
     }
 
-    public AlunoEntity save(AlunoEntity alunoEntity) throws UsernameNotFoundException {
+    public AlunoEntity salvar(AlunoEntity alunoEntity) throws UsernameNotFoundException {
         return repository.save(alunoEntity);
     }
 
-    public Optional<AlunoEntity> findByUsername(String email) throws UsernameNotFoundException {
+    public Optional<AlunoEntity> buscarAlunoPorEmail(String email) throws UsernameNotFoundException {
         return repository.findByUsername(email);
     }
 }

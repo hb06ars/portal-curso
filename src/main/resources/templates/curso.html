@@ -22,10 +22,10 @@
 
     <!-- Breadcrumb -->
     <div class="breadcrumb">
-        <nada onclick="redirecionar('/home')">Meus Cursos ></nada> <span>Portal Cursos</span>
+        <nada onclick="redirecionar('/home')">Meus Cursos ></nada> <span th:text="${curso.nome}">Áreas de conhecimento</span>
     </div>
 
-    <h1>Áreas de conhecimento</h1>
+    <h1 th:text="${curso.descricao}">Descrição do curso</h1>
 
     <div class="grid">
 

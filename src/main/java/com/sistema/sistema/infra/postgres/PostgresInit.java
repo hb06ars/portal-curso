@@ -36,12 +36,12 @@ public class PostgresInit {
     }
 
     private CursoEntity inserirCursoInicial() {
-        if (cursoService.findAll().isEmpty()) {
+        if (cursoService.buscarTodos().isEmpty()) {
             log.info("Nenhum curso encontrado. Criando curso padrão...");
             String nomeCurso = "Java";
             String descricaoCurso = "Desenvolvimento Java";
 
-            return cursoService.save(CursoEntity.builder()
+            return cursoService.salvar(CursoEntity.builder()
                     .nome(nomeCurso)
                     .descricao(descricaoCurso)
                     .build());
@@ -52,16 +52,16 @@ public class PostgresInit {
     }
 
     private AlunoEntity inserirAdmInicial() {
-        if (alunoService.findAll().isEmpty()) {
+        if (alunoService.buscarTodos().isEmpty()) {
             log.info("Nenhum usuário encontrado. Criando usuário padrão...");
             String usrDefault = "hb06ars@mail.com";
             String passDefault = "123";
 
-            return alunoService.save(AlunoEntity.builder()
+            return alunoService.salvar(AlunoEntity.builder()
                     .username(usrDefault)
                     .nome("Fulano")
                     .password(passwordConfig.encoder().encode(passDefault))
-                    .cursos(new HashSet<>(cursoService.findAll()))
+                    .cursos(new HashSet<>(cursoService.buscarTodos()))
                     .role(PerfilEnum.ADMIN.getDescricao())
                     .build());
         } else {

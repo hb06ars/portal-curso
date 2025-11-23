@@ -23,29 +23,16 @@
 
     <div class="courses">
 
-        <div class="card">
-            <img src="/img/book.png">
+        <div th:each="curso : ${cursos}"
+             class="card"
+             th:onclick="'redirecionar(\'/curso/' + ${curso.id} + '\')'">
+            <img src="/img/book.png" alt="Livro">
             <div class="card-content">
-                <div class="card-title">Portal Cursos</div>
-                <p>Domine habilidades essenciais para aplicações de grande porte.</p>
+                <div class="card-title" th:text="${curso.nome}">Nome do Curso</div>
+                <p th:text="${curso.descricao}">Descrição do curso</p>
             </div>
         </div>
 
-        <div class="card" onclick="redirecionar('/curso')">
-            <img src="/img/book.png">
-            <div class="card-content">
-                <div class="card-title">Portal Cursos</div>
-                <p>Aprenda a desenvolver aplicações modernas e escaláveis.</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="/img/book.png">
-            <div class="card-content">
-                <div class="card-title">Bônus Portal Cursos</div>
-                <p>Conteúdos extras exclusivos para alunos Portal Cursos.</p>
-            </div>
-        </div>
 
     </div>
 

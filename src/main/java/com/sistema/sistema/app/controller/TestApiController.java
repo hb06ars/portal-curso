@@ -41,7 +41,7 @@ public class TestApiController {
     @GetMapping("/aluno")
     public ResponseEntity<MessageDTO> aluno(@AuthenticationPrincipal UserDetails user) {
         if (user != null) {
-            var aluno = alunoService.findByUsername(user.getUsername()).orElse(null);
+            var aluno = alunoService.buscarAlunoPorEmail(user.getUsername()).orElse(null);
             return ResponseEntity
                     .ok(MessageDTO.builder().mensagem(aluno != null ? aluno.toString() : "").build());
         }
