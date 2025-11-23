@@ -195,3 +195,12 @@ h1 {
     width: 100% !important;
     height: 100% !important;
 }
+
+/* Aula atual */
+.aulaatual {
+    cursor:default;
+    color: #91a0a7;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
