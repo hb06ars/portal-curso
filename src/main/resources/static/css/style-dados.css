@@ -10,6 +10,19 @@ body {
     padding: 25px;
 }
 
+/* Breadcrumb */
+.breadcrumb {
+    cursor:pointer;
+    font-size: 14px;
+    color: #ccc;
+    margin-bottom: 15px;
+}
+
+.breadcrumb span {
+    color: #91a0a7;
+    font-weight: bold;
+}
+
 /* HEADER */
 header {
     background: #0d0d0d;

@@ -98,6 +98,7 @@ nav a {
 
 /* Breadcrumb */
 .breadcrumb {
+    cursor:pointer;
     font-size: 14px;
     color: #ccc;
     margin-bottom: 15px;
