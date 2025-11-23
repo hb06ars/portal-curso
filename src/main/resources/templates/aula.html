@@ -26,87 +26,51 @@
 <!-- CONTEÚDO -->
 <div class="container">
 
-<div class="app">
-    <header>
-        <div class="brand">
-            <div class="logo">
-                <img src="/img/icone.png" alt="Java Logo">
-            </div>
-            <div>
-                <h1>APRENDENDO A PROGRAMAR</h1>
-                <p>Programação Básica para iniciantes.</p>
-            </div>
-        </div>
-        <nav>
-            <button id="btn-full" title="Tela cheia">⤢</button>
-        </nav>
-    </header>
+    <div class="app">
 
-    <aside class="sidebar">
-        <h3 class="course-title">Curso: Desenvolvimento</h3>
+        <aside class="sidebar">
+            <h3 class="course-title">Curso: Desenvolvimento</h3>
 
-        <div id="lessons">
-            <div class="lesson" data-src="@{/aula/1}">
-                <div class="meta">
-                    <strong>Aula 1 - Introdução</strong>
-                    <small>7:07</small>
+            <div id="lessons">
+                <div class="lesson" data-src="@{/aula/1}">
+                    <div class="meta">
+                        <strong>Aula 1 - Introdução</strong>
+                        <small>7:07</small>
+                    </div>
+                </div>
+
+                <div class="lesson" data-src="@{/secure/video/2}" data-title="Aula 2 - HTML Básico" data-desc="Estrutura HTML e tags principais">
+                    <div class="meta">
+                        <strong>Aula 2 - HTML Básico</strong>
+                        <small>12:40</small>
+                    </div>
+                </div>
+
+                <div class="lesson" data-src="@{/secure/video/3}" data-title="Aula 3 - CSS Básico" data-desc="Estilização e layout">
+                    <div class="meta">
+                        <strong>Aula 3 - CSS Básico</strong>
+                        <small>8:12</small>
+                    </div>
                 </div>
             </div>
 
-            <div class="lesson" data-src="@{/secure/video/2}" data-title="Aula 2 - HTML Básico" data-desc="Estrutura HTML e tags principais">
-                <div class="meta">
-                    <strong>Aula 2 - HTML Básico</strong>
-                    <small>12:40</small>
-                </div>
+        </aside>
+
+        <main class="player-card">
+            <div class="video-wrap">
+                <video
+                        id="player"
+                        class="video-js vjs-default-skin"
+                        controls
+                        preload="auto"
+                        max-width="100%"
+                        max-height="100%"
+                        data-setup='{"playbackRates": [0.5, 0.75, 1, 1.25, 1.5, 2]}'>
+                </video>
             </div>
+        </main>
 
-            <div class="lesson" data-src="@{/secure/video/3}" data-title="Aula 3 - CSS Básico" data-desc="Estilização e layout">
-                <div class="meta">
-                    <strong>Aula 3 - CSS Básico</strong>
-                    <small>8:12</small>
-                </div>
-            </div>
-        </div>
-
-    </aside>
-
-    <main class="player-card">
-        <div class="video-wrap">
-            <video
-                    id="player"
-                    class="video-js vjs-default-skin"
-                    controls
-                    preload="auto"
-                    width="100%"
-                    height="100%"
-                    data-setup='{}'>
-            </video>
-
-        </div>
-
-        <div class="controls">
-            <button id="btn-prev" title="Aula anterior">⟵</button>
-            <button id="btn-play" title="Play/Pause">▶</button>
-            <button id="btn-next" title="Próxima aula">⟶</button>
-
-            <div class="progress" id="progress"><div id="progress-bar"></div></div>
-
-            <select id="speed" title="Velocidade">
-                <option value="0.5">0.5x</option>
-                <option value="0.75">0.75x</option>
-                <option value="1" selected>1x</option>
-                <option value="1.25">1.25x</option>
-                <option value="1.5">1.5x</option>
-                <option value="2">2x</option>
-            </select>
-        </div>
-
-        <div class="info">
-            <h2 id="title">-</h2>
-            <p id="desc">-</p>
-        </div>
-    </main>
-</div>
+    </div>
 
 </div>
 <!-- CONTEÚDO -->
@@ -150,6 +114,11 @@
         carregarAula(1);
 
     });
+
+    const player = videojs('player', {
+        playbackRates: [0.5, 0.75, 1, 1.25, 1.5, 2]
+    });
+
 </script>
 
 </html>

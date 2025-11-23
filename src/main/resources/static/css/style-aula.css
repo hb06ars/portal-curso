@@ -3,11 +3,8 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;color:#e6eef6;background:linear-gradient(180deg,#071023 0%, #071933 100%);min-height:100vh}
 .app{display:grid;grid-template-columns:320px 1fr;gap:20px;padding:0px;min-width:100%;}
-header{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);box-shadow:0 6px 18px rgba(2,6,23,0.7)}
 
 .brand{display:flex;align-items:center;gap:12px}
-.logo{width:44px;height:44px;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;background-color:white}
-.logo img{width:100%;height:100%;object-fit:contain}
 .brand h1{font-size:1rem;margin:0}
 .brand p{margin:0;font-size:.8rem;color:var(--muted)}
 
@@ -167,4 +164,21 @@ h1 {
 .separator {
     margin: 40px 0;
     border-top: 1px solid #222;
+}
+
+.player-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 80vh; /* altura da tela, ajusta conforme quiser */
+    background-color: #000;
+}
+
+.video-wrap {
+    flex: 1; /* ocupa todo espaço disponível */
+}
+
+.video-js {
+    width: 100% !important;
+    height: 100% !important;
 }
