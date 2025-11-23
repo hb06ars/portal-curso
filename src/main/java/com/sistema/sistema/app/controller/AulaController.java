@@ -27,7 +27,7 @@ import java.util.Date;
 @RequestMapping("/aula")
 public class AulaController {
 
-    private final Algorithm algorithm = Algorithm.HMAC256("secreto-muito-forte-ALTERE-AGORA");
+    private final Algorithm algorithm = Algorithm.HMAC256("crsprt-almigr-asdeaw-huifj-sdser");
     private final String VIDEO_ID = "videoId";
     private final String AULA_ID = "aulaId";
     private final String PAGINA = "aula";
