@@ -5,7 +5,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portal Cursos - Dados</title>
+    <!-- Video.js CSS -->
+    <link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <!-- Video.js JS -->
+    <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
 
+    <link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet"/>
     <link rel="stylesheet" th:href="@{/css/style-aula.css}">
 </head>
 
@@ -24,7 +30,7 @@
     <header>
         <div class="brand">
             <div class="logo">
-                <img src="icone.png" alt="Java Logo">
+                <img src="/img/icone.png" alt="Java Logo">
             </div>
             <div>
                 <h1>APRENDENDO A PROGRAMAR</h1>
@@ -66,9 +72,14 @@
 
     <main class="player-card">
         <div class="video-wrap">
-            <video id="player" controls controlsList="nodownload" oncontextmenu="return false;">
-                <source id="videoSource" type="video/mp4">
-                Seu navegador não suporta o elemento de vídeo.
+            <video
+                    id="player"
+                    class="video-js vjs-default-skin"
+                    controls
+                    preload="auto"
+                    width="100%"
+                    height="100%"
+                    data-setup='{}'>
             </video>
 
         </div>
@@ -102,139 +113,43 @@
 
 <!-- SCRIPTS -->
 <div th:replace="fragments/scripts :: scripts"></div>
-<script>
-fetch("/aula/1")
-  .then(r => r.text())
-  .then(url => {
-     const source = document.getElementById("videoSource");
-     source.src = url;
-     document.getElementById("player").load();
-  });
-
-
-
-
-    const lessonsEl = document.getElementById('lessons')
-    const player = document.getElementById('player')
-    const progressBar = document.getElementById('progress-bar')
-    const btnPlay = document.getElementById('btn-play')
-    const btnNext = document.getElementById('btn-next')
-    const btnPrev = document.getElementById('btn-prev')
-    const speed = document.getElementById('speed')
-    const titleEl = document.getElementById('title')
-    const descEl = document.getElementById('desc')
-    const btnFull = document.getElementById('btn-full')
-
-    let lessons = Array.from(document.querySelectorAll('.lesson'))
-    let currentIndex = 0
-
-    const saved = JSON.parse(localStorage.getItem('udemyLiteState') || 'null')
-    if (saved && typeof saved.index === 'number') currentIndex = saved.index
-
-    function setActiveLesson(idx){
-      lessons.forEach(l => l.classList.remove('active'))
-      const sel = lessons[idx]
-      if(!sel) return
-      sel.classList.add('active')
-      const src = sel.getAttribute('data-src')
-      const t = sel.getAttribute('data-title')
-      const d = sel.getAttribute('data-desc')
-      if(player.querySelector('source')){
-        player.querySelector('source').src = src
-        player.load()
-      } else player.src = src
-
-      titleEl.textContent = t
-      descEl.textContent = d
-      currentIndex = idx
-      saveState()
-    }
-
-    lessons.forEach((l, i) => {
-      l.addEventListener('click', () => setActiveLesson(i))
-    })
-
-    function restorePosition(){
-      const st = JSON.parse(localStorage.getItem('udemyLiteState') || 'null')
-      if(!st) return
-      if(st.index !== undefined) setActiveLesson(st.index)
-      if(st.time) {
-        player.addEventListener('loadedmetadata', () => {
-          if(player.duration > st.time) player.currentTime = st.time
-        }, {once:true})
-      }
-    }
-
-    btnPlay.addEventListener('click', () => {
-      if(player.paused) player.play()
-      else player.pause()
-      updatePlayButton()
-    })
-
-    function updatePlayButton(){
-      btnPlay.textContent = player.paused ? '▶' : '❚❚'
-    }
-
-    player.addEventListener('play', updatePlayButton)
-    player.addEventListener('pause', updatePlayButton)
-
-    btnNext.addEventListener('click', () => {
-      if(currentIndex < lessons.length -1) setActiveLesson(currentIndex+1)
-    })
-    btnPrev.addEventListener('click', () => {
-      if(currentIndex > 0) setActiveLesson(currentIndex-1)
-    })
-
-    player.addEventListener('timeupdate', () => {
-      if(player.duration) {
-        const pct = (player.currentTime / player.duration) * 100
-        progressBar.style.width = pct + '%'
-        saveState()
-      }
-    })
-
-    document.getElementById('progress').addEventListener('click', (e) => {
-      const rect = e.currentTarget.getBoundingClientRect()
-      const x = e.clientX - rect.left
-      const pct = x / rect.width
-      if(player.duration) player.currentTime = pct * player.duration
-    })
-
-    speed.addEventListener('change', () => {
-      player.playbackRate = parseFloat(speed.value)
-    })
-
-    function saveState(){
-      const st = { index: currentIndex, time: Math.floor(player.currentTime || 0) }
-      localStorage.setItem('udemyLiteState', JSON.stringify(st))
-    }
-
-    player.addEventListener('ended', () => {
-      if(currentIndex < lessons.length -1) setActiveLesson(currentIndex+1)
-    })
-
-    document.addEventListener('keydown', (e) => {
-      if(e.code === 'Space') { e.preventDefault(); if(player.paused) player.play(); else player.pause(); }
-      if(e.code === 'ArrowRight') player.currentTime = Math.min(player.duration || 0, player.currentTime + 10)
-      if(e.code === 'ArrowLeft') player.currentTime = Math.max(0, player.currentTime - 10)
-    })
-
-    btnFull.addEventListener('click', () => {
-      const el = document.documentElement
-      if(!document.fullscreenElement) {
-        el.requestFullscreen?.()
-      } else document.exitFullscreen?.()
-    })
-
-    player.playbackRate = parseFloat(speed.value)
-    setTimeout(restorePosition, 50)
-
-    if(!JSON.parse(localStorage.getItem('udemyLiteState') || 'null')) setActiveLesson(currentIndex)
-
-    player.addEventListener('error', (ev) => {
-      console.error('Erro ao reproduzir vídeo', ev)
-    })
-</script>
 
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        async function carregarAula(id){
+            const tokenUrl = await fetch(`/aula/${id}/token`).then(r => r.text());
+            const player = videojs('player');
+            player.src({ src: tokenUrl, type: 'application/x-mpegURL' });
+            // player.play(); // só se quiser autoplay, cuidado com NotAllowedError
+        }
+
+        async function setActiveLesson(idx){
+            lessons.forEach(l => l.classList.remove('active'));
+            const sel = lessons[idx];
+            if(!sel) return;
+            sel.classList.add('active');
+
+            const t = sel.getAttribute('data-title');
+            const d = sel.getAttribute('data-desc');
+            const id = sel.getAttribute('data-src').split('/').pop();
+            const tokenUrl = await fetch(`/aula/${id}/token`).then(r => r.text());
+
+            const playerInstance = videojs('player');
+            playerInstance.src({ src: tokenUrl, type: 'application/x-mpegURL' });
+            // playerInstance.play(); // opcional
+            titleEl.textContent = t;
+            descEl.textContent = d;
+            currentIndex = idx;
+            saveState();
+        }
+
+        // inicializar a primeira aula
+        carregarAula(1);
+
+    });
+</script>
+
 </html>
