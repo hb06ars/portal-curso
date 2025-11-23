@@ -28,46 +28,50 @@ import java.util.Date;
 public class AulaController {
 
     private final Algorithm algorithm = Algorithm.HMAC256("secreto-muito-forte-ALTERE-AGORA");
+    private final String VIDEO_ID = "videoId";
+    private final String AULA_ID = "aulaId";
+    private final String PAGINA = "aula";
+    private final String DIRETORIO = "/src/main/resources/videos/hls/aula_";
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
     public String cursoPage(@PathVariable String id, Model model) {
-        model.addAttribute("aulaId", id);
-        return "aula";
+        model.addAttribute(AULA_ID, id);
+        return PAGINA;
     }
 
 
-    // Gera URL temporária para o playlist (chamado pelo frontend)
     @GetMapping("/{id}/token")
+    @PreAuthorize("isAuthenticated()")
     @ResponseBody
     public String gerarLinkTemporario(@PathVariable String id,
                                       @AuthenticationPrincipal UserDetails user) {
         String token = JWT.create()
                 .withSubject(user.getUsername())
-                .withClaim("videoId", id)
+                .withClaim(VIDEO_ID, id)
                 .withExpiresAt(new Date(System.currentTimeMillis() + 5 * 60 * 1000)) // 5 minutos
                 .sign(algorithm);
 
-        // retorna a rota que o player irá consumir
         return "/aula/hls/" + id + "/playlist.m3u8?token=" + token;
     }
 
     @GetMapping(value = "/hls/{id}/playlist.m3u8", produces = "application/vnd.apple.mpegurl")
+    @PreAuthorize("isAuthenticated()")
     public void getPlaylist(@PathVariable String id, @RequestParam String token, HttpServletResponse response) throws IOException {
         DecodedJWT jwt = JWT.require(algorithm).build().verify(token);
-        if (!id.equals(jwt.getClaim("videoId").asString())) {
+        if (!id.equals(jwt.getClaim(VIDEO_ID).asString())) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return;
         }
 
-        // Lista os arquivos TS da pasta
-        String baseDir = System.getProperty("user.dir") + "/src/main/resources/videos/hls/aula_" + id + "/";
+        String baseDir = System.getProperty("user.dir") + DIRETORIO + id + "/";
         File dir = new File(baseDir);
         File[] tsFiles = dir.listFiles((d, name) -> name.endsWith(".ts"));
 
         response.setContentType("application/vnd.apple.mpegurl");
         StringBuilder playlist = new StringBuilder("#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-TARGETDURATION:10\n");
 
+        assert tsFiles != null;
         for (File ts : tsFiles) {
             playlist.append("#EXTINF:10.0,\n")
                     .append(ts.getName())
@@ -80,23 +84,21 @@ public class AulaController {
     }
 
 
-    // Serve segments (.ts) — opcional: você pode optar por servir .ts via controller protegido ou deixar público.
     @GetMapping(value = "/hls/{id}/aula_{seq}.ts", produces = "video/MP2T")
+    @PreAuthorize("isAuthenticated()")
     public void getSegment(@PathVariable String id,
                            @PathVariable String seq,
                            @RequestParam String token,
                            HttpServletResponse response) throws IOException {
 
-        // token check
         DecodedJWT jwt = JWT.require(algorithm).build().verify(token);
-        if (!id.equals(jwt.getClaim("videoId").asString())) {
+        if (!id.equals(jwt.getClaim(VIDEO_ID).asString())) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return;
         }
 
-        // caminho absoluto do filesystem
-        String baseDir = System.getProperty("user.dir"); // raiz do projeto
-        File file = new File(baseDir + "/src/main/resources/videos/hls/aula_" + id + "/aula_" + seq + ".ts");
+        String baseDir = System.getProperty("user.dir");
+        File file = new File(baseDir + DIRETORIO + id + "/aula_" + seq + ".ts");
 
         if (!file.exists()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -109,15 +111,14 @@ public class AulaController {
     }
 
 
-
-    // Serve chave (enc.key) — MUITO IMPORTANTE: exige token + token deve ser curto
     @GetMapping(value = "/hls/key/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @PreAuthorize("isAuthenticated()")
     public void getKey(@PathVariable String id,
                        @RequestParam String token,
-                       HttpServletResponse response) throws Exception {
+                       HttpServletResponse response) {
         try {
             DecodedJWT jwt = JWT.require(algorithm).build().verify(token);
-            if (!id.equals(jwt.getClaim("videoId").asString())) {
+            if (!id.equals(jwt.getClaim(VIDEO_ID).asString())) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 return;
             }

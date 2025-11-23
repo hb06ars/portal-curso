@@ -1,0 +1,39 @@
+<script th:fragment="scripts-aula">
+    document.addEventListener('DOMContentLoaded', () => {
+
+        async function carregarAula(id){
+            const tokenUrl = await fetch(`/aula/${id}/token`).then(r => r.text());
+            const player = videojs('player');
+            player.src({ src: tokenUrl, type: 'application/x-mpegURL' });
+        }
+
+        async function setActiveLesson(idx){
+            lessons.forEach(l => l.classList.remove('active'));
+            const sel = lessons[idx];
+            if(!sel) return;
+            sel.classList.add('active');
+
+            const t = sel.getAttribute('data-title');
+            const d = sel.getAttribute('data-desc');
+            const id = sel.getAttribute('data-src').split('/').pop();
+            const tokenUrl = await fetch(`/aula/${id}/token`).then(r => r.text());
+
+            const playerInstance = videojs('player');
+            playerInstance.src({ src: tokenUrl, type: 'application/x-mpegURL' });
+            titleEl.textContent = t;
+            descEl.textContent = d;
+            currentIndex = idx;
+            saveState();
+        }
+
+        // inicializar a aula
+        const aulaId = [[${aulaId}]];
+        carregarAula(aulaId);
+
+    });
+
+    const player = videojs('player', {
+        playbackRates: [0.5, 0.75, 1, 1.25, 1.5, 2]
+    });
+
+</script>
